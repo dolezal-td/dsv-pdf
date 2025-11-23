@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+.venv
+
+# Environment
+.env
+
+# Logs
+logs/
+*.log
+
+# Output
+*.csv
+# PDF files (but allow test-files)
+*.pdf
+!src/test-files/*.pdf
+!src/test-files/*.PDF
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Release packages
+pdf-extractor-windows-release/
+
