@@ -1,0 +1,125 @@
+================================================================================
+PDF EXTRACTOR - Návod na instalaci
+================================================================================
+
+Dobrý den,
+
+dostali jste odkaz na stažení aplikace PDF Extractor pro Windows.
+
+Následující návod vás provede instalací krok za krokem:
+
+================================================================================
+KROK 1: STAŽENÍ A ROZBALENÍ ARCHIVU
+================================================================================
+
+1. Stáhněte ZIP soubor z poskytnutého odkazu
+
+2. Rozbalte ZIP soubor do libovolné složky, například:
+   - C:\Users\VaseJmeno\Documents\pdf-extractor-windows
+   - Nebo na plochu: C:\Users\VaseJmeno\Desktop\pdf-extractor-windows
+
+3. Otevřete rozbalenou složku
+
+================================================================================
+KROK 2: VYTVOŘENÍ API KLÍČE PRO GOOGLE AI STUDIO
+================================================================================
+
+Aplikace potřebuje API klíč od Google AI Studio (Gemini) pro zpracování PDF.
+
+POSTUP:
+
+1. Otevřete webový prohlížeč a přejděte na:
+   https://aistudio.google.com/apikey
+
+2. Přihlaste se pomocí svého Google účtu
+
+3. Klikněte na tlačítko "Create API Key" nebo "Vytvořit API klíč"
+
+4. Vyberte buď:
+   - "Create API key in new project" (vytvoří nový projekt)
+   - Nebo vyberte existující Google Cloud projekt
+
+5. Po vytvoření se zobrazí váš API klíč (začíná na "AIza...")
+
+6. DŮLEŽITÉ: Zkopírujte si tento klíč a uložte ho na bezpečné místo.
+   Klíč budete potřebovat v Kroku 4.
+
+   Příklad API klíče:
+   AIzaSyAbCdEfGhIjKlMnOpQrStUvWxYz1234567
+
+POZNÁMKA: API klíč je citlivý údaj. Nesdílejte ho s nikým jiným a 
+          nedávejte ho na veřejná místa.
+
+================================================================================
+KROK 3: SPUŠTĚNÍ SETUP.BAT
+================================================================================
+
+1. V rozbalené složce najdete soubor setup.bat
+
+2. Dvojklikem spusťte soubor setup.bat
+
+3. Setup automaticky:
+   - Zkontroluje nebo nainstaluje Python (pokud není nainstalován)
+   - Vytvoří virtuální prostředí
+   - Nainstaluje všechny potřebné knihovny
+   - Vytvoří potřebné složky (input/, output/, logs/)
+   - Vytvoří soubor .env pro konfiguraci
+
+4. Počkejte na dokončení instalace (může trvat několik minut)
+
+5. POZNÁMKA: Po dokončení setupu můžete soubor setup.bat smazat, 
+             už nebude potřeba.
+
+================================================================================
+KROK 4: NASTAVENÍ API KLÍČE
+================================================================================
+
+1. V složce projektu najdete soubor .env
+
+2. Otevřete soubor .env v textovém editoru (Poznámkový blok, Notepad++)
+
+3. Najděte řádek:
+   GOOGLE_API_KEY=your_api_key_here
+
+4. Nahraďte "your_api_key_here" svým API klíčem z Kroku 2
+
+   Příklad:
+   GOOGLE_API_KEY=AIzaSyAbCdEfGhIjKlMnOpQrStUvWxYz1234567
+
+5. DŮLEŽITÉ: 
+   - Neodstraňujte znak = 
+   - Nenechávejte mezery kolem znaku =
+   - Vložte přesně ten klíč, který jste zkopírovali z Google AI Studio
+
+6. Uložte soubor .env
+
+================================================================================
+KROK 5: SPUŠTĚNÍ APLIKACE
+================================================================================
+
+1. Vložte PDF soubory, které chcete zpracovat, do složky input/
+
+2. Dvojklikem spusťte soubor run.bat
+
+3. Aplikace automaticky zpracuje všechny PDF soubory ze složky input/
+
+4. Výsledky najdete ve složce output/
+
+================================================================================
+PODROBNÝ NÁVOD
+================================================================================
+
+Po stažení a rozbalení archivu najdete v složce projektu soubor INSTALACE.txt,
+který obsahuje podrobný návod na instalaci a řešení problémů.
+
+================================================================================
+POMOC A PODPORA
+================================================================================
+
+Pokud narazíte na problémy:
+- Zkontrolujte soubor INSTALACE.txt (sekce "Řešení problémů")
+- Zkontrolujte soubor POUZITI.txt (návod na používání)
+- Zkontrolujte logy ve složce logs/
+
+================================================================================
+

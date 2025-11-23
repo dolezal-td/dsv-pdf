@@ -1,0 +1,169 @@
+================================================================================
+PDF EXTRACTOR - Návod na používání
+================================================================================
+
+Tento návod vám ukáže, jak používat PDF Extractor pro zpracování PDF dokumentů.
+
+================================================================================
+ZÁKLADNÍ POUŽITÍ
+================================================================================
+
+1. PŘÍPRAVA PDF SOUBORŮ
+   --------------------
+   - Vložte PDF soubory, které chcete zpracovat, do složky input/
+   - Podporované formáty: .pdf a .PDF
+   - Aplikace zpracuje všechny PDF soubory ve složce najednou
+
+2. SPUŠTĚNÍ APLIKACE
+   ------------------
+   Metoda A: Dvojklik na run.bat
+   - Jednoduše dvojklikněte na soubor run.bat ve složce projektu
+   - Otevře se okno příkazového řádku
+   - Aplikace začne zpracovávat PDF soubory
+
+   Metoda B: Příkazový řádek
+   - Otevřete příkazový řádek (cmd) v složce projektu
+   - Zadejte: run.bat
+   - Stiskněte Enter
+
+3. VÝSLEDKY
+   ---------
+   - Po dokončení zpracování najdete výsledky ve složce output/
+   - Pro každý PDF soubor se vytvoří složka s názvem souboru
+   - V každé složce najdete:
+     * CSV soubor s extrahovanými daty
+     * PDF soubor s extrahovanými MRN stránkami (pokud byly nalezeny)
+
+================================================================================
+POKROČILÉ POUŽITÍ
+================================================================================
+
+VLASTNÍ VSTUPNÍ A VÝSTUPNÍ SLOŽKY
+----------------------------------
+
+Můžete zadat vlastní složky pomocí argumentů příkazového řádku:
+
+run.bat -i "C:\Cesta\K\Vstupnim\Souborum" -o "C:\Cesta\K\Vystupnim\Souborum"
+
+Nebo přímo Python:
+venv\Scripts\activate.bat
+python src\main.py -i "C:\Cesta\K\Vstupnim\Souborum" -o "C:\Cesta\K\Vystupnim\Souborum"
+
+PŘÍKLAD:
+--------
+run.bat -i "C:\Users\Jmeno\Documents\PDFs" -o "C:\Users\Jmeno\Documents\Vysledky"
+
+================================================================================
+VÝSTUPNÍ SOUBORY
+================================================================================
+
+Pro každý zpracovaný PDF soubor se vytvoří:
+
+1. CSV SOUBOR (<název>.csv)
+   - Obsahuje extrahovaná data ve strukturovaném formátu
+   - Sloupce: consignment_note, gross_weight_kg, packages, volume_m3, 
+              mrn_pages, hs_codes
+   - Otevřete v Excelu nebo jiném tabulkovém editoru
+
+2. MRN PDF (<název>_MRN.pdf)
+   - Obsahuje pouze MRN stránky extrahované z původního PDF
+   - Vytvoří se pouze pokud byly nalezeny MRN stránky
+
+3. LOG SOUBOR (logs/extraction_log.jsonl)
+   - Obsahuje podrobné logy ze zpracování
+   - Užitečné pro řešení problémů
+
+PŘÍKLAD STRUKTURY VÝSTUPU:
+---------------------------
+output/
+├── dokument1/
+│   ├── dokument1.csv
+│   └── dokument1_MRN.pdf
+├── dokument2/
+│   ├── dokument2.csv
+│   └── dokument2_MRN.pdf
+└── ...
+
+================================================================================
+KONFIGURACE
+================================================================================
+
+Konfigurace se provádí v souboru .env:
+
+GOOGLE_API_KEY=your_api_key_here
+   - Povinný: Váš Google API klíč pro Gemini
+
+AI_MODEL=gemini-2.5-flash
+   - Volitelný: Model AI k použití
+   - Dostupné modely:
+     * gemini-2.5-flash (doporučeno, rychlý a levný)
+     * gemini-2.5-flash-lite (ještě rychlejší)
+     * gemini-1.5-pro (pro velmi velké dokumenty)
+
+PDF_INPUT_DIR=./input
+   - Volitelný: Výchozí vstupní složka
+
+PDF_OUTPUT_DIR=./output
+   - Volitelný: Výchozí výstupní složka
+
+POZOR: Po změně .env souboru není potřeba restartovat aplikaci,
+       změny se projeví při dalším spuštění.
+
+================================================================================
+ŘEŠENÍ PROBLÉMŮ
+================================================================================
+
+PROBLÉM: Aplikace nenašla žádné PDF soubory
+ŘEŠENÍ: Zkontrolujte, že soubory jsou ve složce input/ a mají příponu .pdf
+        nebo .PDF. Zkontrolujte, že používáte správnou cestu.
+
+PROBLÉM: "GOOGLE_API_KEY není nastaven"
+ŘEŠENÍ: Zkontrolujte soubor .env a ujistěte se, že obsahuje platný API klíč.
+        Ujistěte se, že není mezera kolem znaku =.
+
+PROBLÉM: Aplikace zpracovává soubory velmi pomalu
+ŘEŠENÍ: Zpracování velkých PDF může trvat déle. Zkontrolujte logy pro
+        informace o průběhu. Pro velké dokumenty použijte model gemini-1.5-pro.
+
+PROBLÉM: Extrahovaná data jsou neúplná nebo nesprávná
+ŘEŠENÍ: Zkontrolujte logy ve složce logs/. Některé PDF mohou mít špatnou
+        kvalitu nebo nestandardní formát. Zkuste jiný model AI.
+
+PROBLÉM: Okno příkazového řádku se zavře příliš rychle
+ŘEŠENÍ: Aplikace automaticky čeká na stisknutí klávesy na konci. Pokud se
+        okno zavře, zkuste spustit aplikaci z příkazového řádku ručně.
+
+PROBLÉM: Chyba při instalaci závislostí
+ŘEŠENÍ: Zkontrolujte internetové připojení. Pokud problém přetrvává, zkuste:
+        1. Spustit setup.bat znovu
+        2. Ručně aktivovat venv a instalovat závislosti:
+           venv\Scripts\activate.bat
+           pip install -r requirements.txt
+
+PROBLÉM: PDF má více než 150 stránek
+ŘEŠENÍ: Aplikace zobrazí varování, ale pokusí se soubor zpracovat.
+        Pro velmi velké dokumenty použijte model gemini-1.5-pro, který
+        podporuje větší kontextové okno.
+
+================================================================================
+TIPY A TRIKY
+================================================================================
+
+- Pro rychlejší zpracování použijte model gemini-2.5-flash-lite
+- Pro větší přesnost použijte model gemini-1.5-pro
+- Můžete zpracovat více souborů najednou - stačí je všechny vložit do input/
+- Výsledky se ukládají do samostatných složek pro každý PDF
+- Logy obsahují informace o nákladech a použití tokenů
+- CSV soubory můžete otevřít v Excelu pro další analýzu
+
+================================================================================
+KONTAKT A PODPORA
+================================================================================
+
+Pro další pomoc zkontrolujte:
+- README_WINDOWS.txt - Přehled aplikace
+- INSTALACE.txt - Návod na instalaci
+- Logy ve složce logs/ - Podrobné informace o běhu
+
+================================================================================
+

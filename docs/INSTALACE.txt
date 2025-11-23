@@ -1,0 +1,167 @@
+================================================================================
+PDF EXTRACTOR - Návod na instalaci pro Windows
+================================================================================
+
+Tento návod vás provede instalací PDF Extractoru krok za krokem.
+
+================================================================================
+KROK 1: STAŽENÍ A ROZBALENÍ ARCHIVU
+================================================================================
+
+1. Stáhněte ZIP soubor s projektem PDF Extractor
+
+2. Rozbalte ZIP soubor do libovolné složky, například:
+   - C:\Users\VaseJmeno\Documents\pdf-extractor-windows
+   - Nebo na plochu: C:\Users\VaseJmeno\Desktop\pdf-extractor-windows
+
+3. Otevřete rozbalenou složku
+
+4. Měli byste vidět následující soubory:
+   - setup.bat
+   - run.bat
+   - requirements.txt
+   - a další soubory...
+
+================================================================================
+KROK 2: VYTVOŘENÍ API KLÍČE PRO GOOGLE AI STUDIO
+================================================================================
+
+Aplikace potřebuje API klíč od Google AI Studio (Gemini) pro zpracování PDF.
+
+POSTUP:
+
+1. Otevřete webový prohlížeč a přejděte na:
+   https://aistudio.google.com/apikey
+
+2. Přihlaste se pomocí svého Google účtu
+
+3. Klikněte na tlačítko "Create API Key" nebo "Vytvořit API klíč"
+
+4. Vyberte buď:
+   - "Create API key in new project" (vytvoří nový projekt)
+   - Nebo vyberte existující Google Cloud projekt
+
+5. Po vytvoření se zobrazí váš API klíč (začíná na "AIza...")
+
+6. DŮLEŽITÉ: Zkopírujte si tento klíč a uložte ho na bezpečné místo.
+   Budete ho potřebovat v Kroku 4.
+
+   Příklad API klíče:
+   AIzaSyAbCdEfGhIjKlMnOpQrStUvWxYz1234567
+
+POZNÁMKA: API klíč je citlivý údaj. Nesdílejte ho s nikým jiným a 
+          nedávejte ho na veřejná místa.
+
+================================================================================
+KROK 3: SPUŠTĚNÍ SETUP.BAT
+================================================================================
+
+1. V rozbalené složce najdete soubor setup.bat
+
+2. Dvojklikem spusťte soubor setup.bat
+
+3. Setup automaticky provede následující:
+   - Zkontroluje instalaci Pythonu (pokud není, pokusí se ho nainstalovat)
+   - Vytvoří virtuální prostředí (venv)
+   - Nainstaluje všechny potřebné knihovny
+   - Vytvoří potřebné složky (input/, output/, logs/)
+   - Vytvoří soubor .env z .env.example
+
+4. Počkejte na dokončení instalace (může trvat několik minut)
+
+5. POZNÁMKA: Po dokončení setupu můžete soubor setup.bat smazat, 
+             už nebude potřeba.
+
+ŘEŠENÍ PROBLÉMŮ S SETUP.BAT:
+----------------------------
+
+PROBLÉM: "Python není rozpoznán jako příkaz"
+ŘEŠENÍ: Setup se pokusí automaticky nainstalovat Python. Pokud to selže:
+        - Stáhněte Python z https://www.python.org/downloads/
+        - Při instalaci zrušte zaškrtnutí "Install for all users"
+        - Zaškrtněte "Add Python to PATH" (důležité!)
+        - Po instalaci restartujte příkazový řádek a spusťte setup.bat znovu
+
+PROBLÉM: Setup selže při instalaci závislostí
+ŘEŠENÍ: Zkontrolujte internetové připojení. Pokud problém přetrvává,
+        zkuste spustit příkaz ručně:
+        venv\Scripts\activate.bat
+        pip install -r requirements.txt
+
+================================================================================
+KROK 4: NASTAVENÍ API KLÍČE
+================================================================================
+
+1. V složce projektu najdete soubor .env (vytvořil ho setup.bat)
+
+2. Otevřete soubor .env v textovém editoru:
+   - Poznámkový blok (Notepad)
+   - Nebo jiný textový editor (Notepad++, VS Code, atd.)
+
+3. Najděte řádek:
+   GOOGLE_API_KEY=your_api_key_here
+
+4. Nahraďte "your_api_key_here" svým API klíčem z Kroku 2
+
+   PŘÍKLAD:
+   GOOGLE_API_KEY=AIzaSyAbCdEfGhIjKlMnOpQrStUvWxYz1234567
+
+5. DŮLEŽITÉ: 
+   - Neodstraňujte znak = 
+   - Nenechávejte mezery kolem znaku =
+   - Vložte přesně ten klíč, který jste zkopírovali z Google AI Studio
+
+6. Uložte soubor .env
+
+POZNÁMKA: Pokud soubor .env neexistuje, zkopírujte .env.example a přejmenujte
+          ho na .env, nebo spusťte setup.bat znovu.
+
+================================================================================
+KROK 5: SPUŠTĚNÍ APLIKACE
+================================================================================
+
+1. Vložte jeden nebo více PDF souborů do složky input/
+
+2. Dvojklikem spusťte soubor run.bat
+
+3. Nebo otevřete příkazový řádek v složce projektu a zadejte:
+   run.bat
+
+4. Aplikace automaticky zpracuje všechny PDF soubory ze složky input/
+
+5. Výsledky najdete ve složce output/
+   - Pro každý PDF soubor se vytvoří složka s názvem souboru
+   - V každé složce najdete CSV soubor s extrahovanými daty
+   - A PDF soubor s extrahovanými MRN stránkami (pokud byly nalezeny)
+
+================================================================================
+ŘEŠENÍ PROBLÉMŮ
+================================================================================
+
+PROBLÉM: "GOOGLE_API_KEY není nastaven"
+ŘEŠENÍ: Zkontrolujte, že soubor .env existuje a obsahuje správný API klíč.
+        Ujistěte se, že není mezera kolem znaku =.
+        Příklad správného formátu:
+        GOOGLE_API_KEY=AIzaSyAbCdEfGhIjKlMnOpQrStUvWxYz1234567
+
+PROBLÉM: Aplikace nenašla žádné PDF soubory
+ŘEŠENÍ: Zkontrolujte, že PDF soubory jsou ve složce input/ a mají příponu .pdf
+        nebo .PDF. Zkontrolujte logy ve složce logs/.
+
+PROBLÉM: Aplikace nezpracovává PDF soubory správně
+ŘEŠENÍ: Zkontrolujte logy ve složce logs/. Některé PDF mohou mít špatnou
+        kvalitu nebo nestandardní formát. Zkuste jiný model AI v souboru .env.
+
+PROBLÉM: Okno příkazového řádku se zavře příliš rychle
+ŘEŠENÍ: Aplikace automaticky čeká na stisknutí klávesy na konci. Pokud se
+        okno zavře, zkuste spustit aplikaci z příkazového řádku ručně.
+
+================================================================================
+DALŠÍ INFORMACE
+================================================================================
+
+Pro podrobnější informace o používání aplikace viz soubor POUZITI.txt
+
+Pro přehled aplikace viz soubor README_WINDOWS.txt
+
+================================================================================
