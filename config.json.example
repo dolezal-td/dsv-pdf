@@ -1,0 +1,7 @@
+{
+  "google_api_key": "your_api_key_here",
+  "ai_model": "gemini-3-flash",
+  "input_dir": "input",
+  "output_dir": "output"
+}
+
