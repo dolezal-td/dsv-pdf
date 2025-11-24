@@ -42,14 +42,18 @@ venv.bak/
 .env
 .env.local
 .env.*.local
+# .env.example je commitnutý jako šablona
 
-# Logs
-logs/
+# Logs - ignorujeme obsah, ale složka zůstane
+logs/*
+!logs/.gitkeep
 *.log
 
-# Project specific
-input/
-output/
+# Project specific - ignorujeme obsah složek, ale složky zůstanou
+input/*
+!input/.gitkeep
+output/*
+!output/.gitkeep
 *.pdf
 *.PDF
 

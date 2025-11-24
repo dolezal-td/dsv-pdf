@@ -57,12 +57,12 @@ if errorlevel 1 (
     exit /b 1
 )
 
-echo [1/5] Kontrola Pythonu...
+echo [1/3] Kontrola Pythonu...
 python --version
 echo.
 
 REM Vytvoření virtuálního prostředí
-echo [2/5] Vytváření virtuálního prostředí...
+echo [2/3] Vytváření virtuálního prostředí...
 if exist venv (
     echo Virtuální prostředí již existuje. Přeskočeno.
 ) else (
@@ -77,13 +77,16 @@ if exist venv (
 echo.
 
 REM Aktivace venv a upgrade pip
-echo [3/5] Aktualizace pip...
+echo [3/3] Aktualizace pip a instalace závislostí...
 call venv\Scripts\activate.bat
 python -m pip install --upgrade pip
-echo.
+if errorlevel 1 (
+    echo CHYBA: Nepodařilo se aktualizovat pip!
+    pause
+    exit /b 1
+)
 
 REM Instalace závislostí
-echo [4/5] Instalace závislostí...
 pip install -r requirements.txt
 if errorlevel 1 (
     echo CHYBA: Nepodařilo se nainstalovat závislosti!
@@ -91,35 +94,6 @@ if errorlevel 1 (
     exit /b 1
 )
 echo.
-
-REM Vytvoření složek
-echo [5/5] Vytváření složek...
-if not exist input mkdir input
-if not exist output mkdir output
-if not exist logs mkdir logs
-echo.
-
-REM Kopírování .env souboru pokud neexistuje
-if not exist .env (
-    if exist .env.example (
-        echo Vytváření .env souboru z .env.example...
-        copy .env.example .env >nul
-        echo.
-        echo DŮLEŽITÉ: Upravte soubor .env a vložte svůj GOOGLE_API_KEY!
-        echo.
-    ) else (
-        echo Vytváření .env souboru...
-        echo # Google AI Studio API klíč > .env
-        echo # Získejte klíč na: https://aistudio.google.com/apikey >> .env
-        echo GOOGLE_API_KEY=your_api_key_here >> .env
-        echo. >> .env
-        echo # Volitelné: AI model k použití >> .env
-        echo AI_MODEL=gemini-2.5-flash >> .env
-        echo.
-        echo DŮLEŽITÉ: Upravte soubor .env a vložte svůj GOOGLE_API_KEY!
-        echo.
-    )
-)
 
 echo ========================================
 echo Setup dokončen!

@@ -44,9 +44,13 @@ fi
 # Vytvoření struktury složek
 echo -e "${GREEN}[1/6] Vytváření struktury složek...${NC}"
 mkdir -p "$RELEASE_DIR/src"
-mkdir -p "$RELEASE_DIR/src/logs"
+mkdir -p "$RELEASE_DIR/logs"
 mkdir -p "$RELEASE_DIR/input"
 mkdir -p "$RELEASE_DIR/output"
+# Vytvoření .gitkeep souborů pro prázdné složky
+touch "$RELEASE_DIR/logs/.gitkeep"
+touch "$RELEASE_DIR/input/.gitkeep"
+touch "$RELEASE_DIR/output/.gitkeep"
 
 # Kopírování zdrojového kódu (vyloučení __pycache__)
 echo -e "${GREEN}[2/6] Kopírování zdrojového kódu...${NC}"
@@ -59,6 +63,22 @@ echo -e "${GREEN}[3/6] Kopírování konfiguračních souborů...${NC}"
 cp config.json.example "$RELEASE_DIR/"
 cp src/requirements.txt "$RELEASE_DIR/src/"
 cp .gitignore "$RELEASE_DIR/" 2>/dev/null || true
+# Kopírování .env souboru (z .env.example pokud existuje)
+if [ -f ".env.example" ]; then
+    cp .env.example "$RELEASE_DIR/.env"
+    echo "  ✓ .env soubor vytvořen z .env.example"
+else
+    # Vytvoření základního .env souboru
+    cat > "$RELEASE_DIR/.env" << 'EOF'
+# Google AI Studio API klíč
+# Získejte klíč na: https://aistudio.google.com/apikey
+GOOGLE_API_KEY=your_api_key_here
+
+# Volitelné: AI model k použití
+AI_MODEL=gemini-2.5-flash
+EOF
+    echo "  ✓ .env soubor vytvořen"
+fi
 
 # Kopírování batch souborů
 echo -e "${GREEN}[4/6] Kopírování batch souborů...${NC}"
@@ -96,9 +116,9 @@ echo ""
 echo "Balíček obsahuje:"
 echo "  ✓ Zdrojový kód (src/)"
 echo "  ✓ Batch soubory (setup.bat, run.bat, test.bat)"
-echo "  ✓ Konfigurační soubory (config.json.example, src/requirements.txt)"
+echo "  ✓ Konfigurační soubory (config.json.example, src/requirements.txt, .env)"
 echo "  ✓ Dokumentace (README.md)"
-echo "  ✓ Prázdné složky (input/, output/, src/logs/)"
+echo "  ✓ Prázdné složky (input/, output/, logs/)"
 echo ""
 echo "Nyní můžete:"
 echo "  1. Nahrát ${ZIP_NAME} na GitHub Releases"
